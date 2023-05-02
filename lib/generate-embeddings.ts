@@ -19,7 +19,7 @@ import { inspect } from 'util'
 
 dotenv.config()
 
-const ignoredFiles = ['pages/404.mdx']
+const ignoredFiles = ['pages/404.md']
 
 /**
  * Extracts ES literals from an `estree` `ObjectExpression`
@@ -193,7 +193,7 @@ async function walk(dir: string, parentPath?: string): Promise<WalkEntry[]> {
       const stats = await stat(path)
       if (stats.isDirectory()) {
         // Keep track of document hierarchy (if this dir has corresponding doc file)
-        const docPath = `${basename(path)}.mdx`
+        const docPath = `${basename(path)}.md`
 
         return walk(
           path,
@@ -238,8 +238,8 @@ class MarkdownEmbeddingSource extends BaseEmbeddingSource {
   type: 'markdown' = 'markdown'
 
   constructor(source: string, public filePath: string, public parentFilePath?: string) {
-    const path = filePath.replace(/^pages/, '').replace(/\.mdx?$/, '')
-    const parentPath = parentFilePath?.replace(/^pages/, '').replace(/\.mdx?$/, '')
+    const path = filePath.replace(/^pages/, '').replace(/\.md?$/, '')
+    const parentPath = parentFilePath?.replace(/^pages/, '').replace(/\.md?$/, '')
 
     super(source, path, parentPath)
   }
@@ -291,7 +291,7 @@ async function generateEmbeddings() {
 
   const embeddingSources: EmbeddingSource[] = [
     ...(await walk('pages'))
-      .filter(({ path }) => /\.mdx?$/.test(path))
+      .filter(({ path }) => /\.md?$/.test(path))
       .filter(({ path }) => !ignoredFiles.includes(path))
       .map((entry) => new MarkdownEmbeddingSource('guide', entry.path)),
   ]

@@ -1,6 +1,6 @@
 # Next.js OpenAI Doc Search Starter
 
-This starter takes all the `.mdx` files in the `pages` directory and processes them to use as custom context within [OpenAI Text Completion](https://platform.openai.com/docs/guides/completion) prompts.
+This starter takes all the `.md` files in the `pages` directory and processes them to use as custom context within [OpenAI Text Completion](https://platform.openai.com/docs/guides/completion) prompts.
 
 ## Deploy
 
@@ -12,7 +12,7 @@ Deploy this starter to Vercel. The Supabase integration will automatically set t
 
 Building your own custom ChatGPT involves four steps:
 
-1. [👷 Build time] Pre-process the knowledge base (your `.mdx` files in your `pages` folder).
+1. [👷 Build time] Pre-process the knowledge base (your `.md` files in your `pages` folder).
 2. [👷 Build time] Store embeddings in Postgres with [pgvector](https://supabase.com/docs/guides/database/extensions/pgvector).
 3. [🏃 Runtime] Perform vector similarity search to find the content that's relevant to the question.
 4. [🏃 Runtime] Inject content into OpenAI GPT-3 text completion prompt and stream response to the client.
@@ -27,7 +27,7 @@ sequenceDiagram
     participant DB (pgvector)
     participant OpenAI (API)
     loop 1. Pre-process the knowledge base
-        Vercel->>Vercel: Chunk .mdx pages into sections
+        Vercel->>Vercel: Chunk .md pages into sections
         loop 2. Create & store embeddings
             Vercel->>OpenAI (API): create embedding for page section
             OpenAI (API)->>Vercel: embedding vector(1536)
@@ -36,7 +36,7 @@ sequenceDiagram
     end
 ```
 
-In addition to storing the embeddings, this script generates a checksum for each of your `.mdx` files and stores this in another database table to make sure the embeddings are only regenerated when the file has changed.
+In addition to storing the embeddings, this script generates a checksum for each of your `.md` files and stores this in another database table to make sure the embeddings are only regenerated when the file has changed.
 
 ## 🏃 Runtime
 
