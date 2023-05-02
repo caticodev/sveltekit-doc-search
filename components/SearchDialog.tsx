@@ -14,6 +14,7 @@ import { Input } from '@/components/ui/input'
 import { SSE } from 'sse.js'
 import type { CreateCompletionResponse } from 'openai'
 import { X, Loader, User, Frown, CornerDownLeft, Search, Wand } from 'lucide-react'
+import ReactMarkdown from 'react-markdown';
 
 function promptDataReducer(
   state: any[],
@@ -236,12 +237,8 @@ export function SearchDialog() {
               )}
 
               {answer && !hasError ? (
-                <div className="flex items-center gap-4 dark:text-white">
-                  <span className="bg-green-500 p-2 w-8 h-8 rounded-full text-center flex items-center justify-center">
-                    <Wand width={18} className="text-white" />
-                  </span>
-                  <h3 className="font-semibold">Answer:</h3>
-                  {answer}
+                <div className=" dark:text-white">
+                  <ReactMarkdown>{answer}</ReactMarkdown>
                 </div>
               ) : null}
 
@@ -258,22 +255,6 @@ export function SearchDialog() {
                     search ? 'opacity-100' : 'opacity-0'
                   }`}
                 />
-              </div>
-              <div className="text-xs text-gray-500 dark:text-gray-100">
-                Or try:{' '}
-                <button
-                  type="button"
-                  className="px-1.5 py-0.5
-                  bg-slate-50 dark:bg-gray-500
-                  hover:bg-slate-100 dark:hover:bg-gray-600
-                  rounded border border-slate-200 dark:border-slate-600
-                  transition-colors"
-                  onClick={(_) =>
-                    setSearch('Create a table called profiles with fields id, name, email')
-                  }
-                >
-                  Create a table called profiles with fields id, name, email
-                </button>
               </div>
             </div>
             <DialogFooter>
